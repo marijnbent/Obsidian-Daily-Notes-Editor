@@ -8,6 +8,7 @@
     export let plugin: DailyNoteViewPlugin;
     export let leaf: WorkspaceLeaf;
     export let shouldRender: boolean = true;
+    export let autoFocus: boolean = false;
 
     let editorEl: HTMLElement;
     let containerEl: HTMLElement;
@@ -101,6 +102,12 @@
                         editorHeight = actualHeight;
                         // Apply the height to the container
                         containerEl.style.minHeight = `${editorHeight}px`;
+
+                        if (autoFocus) {
+                            const editor = createdLeaf.view.editor;
+                            editor.focus();
+                            editor.setCursor(editor.lineCount(), 0);
+                        }
 
                         window.clearTimeout(timeout);
                     }

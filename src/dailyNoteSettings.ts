@@ -6,6 +6,7 @@ export interface DailyNoteSettings {
     hideBacklinks: boolean;
     createAndOpenOnStartup: boolean;
     useArrowUpOrDownToNavigate: boolean;
+    autoFocus: boolean;
 
     preset: {
         type: "folder" | "tag";
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS: DailyNoteSettings = {
     hideBacklinks: false,
     createAndOpenOnStartup: false,
     useArrowUpOrDownToNavigate: false,
+    autoFocus: false,
     preset: [],
 };
 
@@ -114,6 +116,20 @@ export class DailyNoteSettingTab extends PluginSettingTab {
                     .setValue(settings.useArrowUpOrDownToNavigate)
                     .onChange(async (value) => {
                         this.plugin.settings.useArrowUpOrDownToNavigate = value;
+                        this.applySettingsUpdate();
+                    })
+            );
+
+        new Setting(containerEl)
+            .setName("Auto focus today's note")
+            .setDesc(
+                "Automatically focus today's note and move the cursor to the end of the document"
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(settings.autoFocus)
+                    .onChange(async (value) => {
+                        this.plugin.settings.autoFocus = value;
                         this.applySettingsUpdate();
                     })
             );
