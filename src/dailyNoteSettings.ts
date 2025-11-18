@@ -7,6 +7,7 @@ export interface DailyNoteSettings {
     createAndOpenOnStartup: boolean;
     useArrowUpOrDownToNavigate: boolean;
     autoFocus: boolean;
+    switchToExisting: boolean;
 
     preset: {
         type: "folder" | "tag";
@@ -20,6 +21,7 @@ export const DEFAULT_SETTINGS: DailyNoteSettings = {
     createAndOpenOnStartup: false,
     useArrowUpOrDownToNavigate: false,
     autoFocus: false,
+    switchToExisting: false,
     preset: [],
 };
 
@@ -130,6 +132,20 @@ export class DailyNoteSettingTab extends PluginSettingTab {
                     .setValue(settings.autoFocus)
                     .onChange(async (value) => {
                         this.plugin.settings.autoFocus = value;
+                        this.applySettingsUpdate();
+                    })
+            );
+
+        new Setting(containerEl)
+            .setName("Switch to existing editor")
+            .setDesc(
+                "If an daily notes editor is already open, switch to it rather than open it on a new tab"
+            )
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(settings.switchToExisting)
+                    .onChange(async (value) => {
+                        this.plugin.settings.switchToExisting = value;
                         this.applySettingsUpdate();
                     })
             );
